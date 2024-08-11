@@ -21,7 +21,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
-        <SessionProvider session={session} basePath="/login">
+        <SessionProvider session={session} basePath="/api/auth">
           {" "}
           <TRPCReactProvider>
             <Header />
