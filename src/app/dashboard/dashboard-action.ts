@@ -14,8 +14,13 @@ interface IData {
 const BannerServerAction = async (data: IData) => {
   try {
     const session = await getServerSession();
-
-    if (!session?.user.email) {
+    if (!session) {
+      return;
+    }
+    if (session.user.email === null) {
+      return;
+    }
+    if (!session.user.email) {
       throw new Error("User not authenticated");
     }
 

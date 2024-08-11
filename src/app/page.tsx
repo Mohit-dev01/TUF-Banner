@@ -6,9 +6,15 @@ import { db } from "~/server/db";
 
 const Home = async () => {
   const session = await getServerSession();
+  if (!session) {
+    return;
+  }
+  if (session.user.email === null) {
+    return;
+  }
   const user = await db.user.findUnique({
     where: {
-      email: session?.user.email!,
+      email: session.user.email,
     },
   });
   if (!user) {
@@ -39,13 +45,15 @@ const Home = async () => {
   });
   // console.log(new Date(banner?.date!));
   // console.log(banner)
-
+  if (!banner) {
+    return;
+  }
   return (
     <div>
       <CountdownTimer
-        link={banner?.link!}
-        targetDate={new Date(banner?.date!)}
-        description={banner?.description!}
+        link={banner.link}
+        targetDate={new Date(banner.date)}
+        description={banner.description}
       />
     </div>
   );
