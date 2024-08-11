@@ -21,26 +21,27 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
-        <SessionProvider session={session} basePath="/api/auth">
+        {/* <SessionProvider session={session} basePath="/api/auth">
           {" "}
-          <TRPCReactProvider>
-            <Header />
-            {children}
+         
+        </SessionProvider> */}
+        <TRPCReactProvider>
+          <Header />
+          {children}
 
-            <div className="mt-10 flex flex-col items-center justify-center font-bold">
-              Made by Mohit Wadhwa
-              <div className="flex gap-2">
-                {" "}
-                <Link href="https://www.linkedin.com/in/mohit0100/">
-                  Linkedin
-                </Link>
-                <Link href="https://github.com/Mohit-dev01">Github</Link>
-                <Link href="mailTo:mohitwadhwa7788@gmail.com">Mail</Link>
-              </div>
+          <div className="mt-10 flex flex-col items-center justify-center font-bold">
+            Made by Mohit Wadhwa
+            <div className="flex gap-2">
+              {" "}
+              <Link href="https://www.linkedin.com/in/mohit0100/">
+                Linkedin
+              </Link>
+              <Link href="https://github.com/Mohit-dev01">Github</Link>
+              <Link href="mailTo:mohitwadhwa7788@gmail.com">Mail</Link>
             </div>
-            <Toaster />
-          </TRPCReactProvider>
-        </SessionProvider>
+          </div>
+          <Toaster />
+        </TRPCReactProvider>
       </body>
     </html>
   );
