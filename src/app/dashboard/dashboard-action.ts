@@ -123,6 +123,14 @@ const BannerServerAction = async (data: IData) => {
           error: "Invalid Data",
         };
       }
+
+      const dateInUTC = new Date(
+        Date.UTC(
+          isValidData.date.getFullYear(),
+          isValidData.date.getMonth(),
+          isValidData.date.getDate(),
+        ),
+      );
       // Create new banner
       await db.banner.create({
         data: {
