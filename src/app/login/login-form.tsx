@@ -9,6 +9,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useToast } from "~/components/ui/use-toast";
 import Link from "next/link";
+import { revalidatePath } from "next/cache";
 // import { authOptions } from "~/server/auth";
 const schema = z.object({
   email: z
@@ -26,9 +27,9 @@ const LoginForm = () => {
     resolver: zodResolver(schema),
   });
 
-  const session = useSession()
-  console.log(session)
-  
+  const session = useSession();
+  console.log(session);
+
   const router = useRouter();
   const { toast } = useToast();
   const onSubmit = async (data: z.infer<typeof schema>) => {
@@ -50,7 +51,9 @@ const LoginForm = () => {
         variant: "default",
         title: "Login Successfully",
       });
-      router.push("/dashboard");
+      router.replace("/dashboard");
+      router.refresh();
+      // revalidatePath("/dashboard");
     }
 
     reset;

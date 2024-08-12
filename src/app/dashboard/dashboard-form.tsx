@@ -26,10 +26,17 @@ interface IData {
   link: string;
   active: boolean;
 }
+import { addDays } from "date-fns";
 
 const convertToUTC = (date: Date) => {
   if (!(date instanceof Date) || isNaN(date.getTime())) {
-    throw new Error("Invalid Date");
+    return new Date(
+      Date.UTC(
+        addDays(new Date(), 1).getFullYear(),
+        addDays(new Date(), 1).getMonth(),
+        addDays(new Date(), 1).getDate(),
+      ),
+    );
   }
   return new Date(
     Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
@@ -62,12 +69,12 @@ const DashboardForm = ({
     reset,
   } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
-    // defaultValues: {
-    //   description: description,
-    //   date: convertToUTC(date) || new Date(),
-    //   link: link,
-    //   active: active || true,
-    // },
+    defaultValues: {
+      description: description,
+      date: convertToUTC(date) || addDays(new Date(), 1),
+      link: link,
+      active: active,
+    },
   });
   // console.log("defaultDate", date);
   const { toast } = useToast();
@@ -225,11 +232,16 @@ const DashboardForm = ({
                 />
               </div>
               <Button className="mt-5">Submit</Button>
-              <Button className="bg-red-500" onClick={() => signOut()}>
-                Sign Out
-              </Button>
             </div>
           </form>
+          <div className="px-5">
+            <Button
+              className="w-full bg-red-500 hover:bg-red-500"
+              onClick={() => signOut()}
+            >
+              Sign Out
+            </Button>
+          </div>
         </div>
       </div>
     </>
