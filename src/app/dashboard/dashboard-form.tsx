@@ -28,8 +28,11 @@ interface IData {
 }
 
 const convertToUTC = (date: Date) => {
+  if (!(date instanceof Date) || isNaN(date.getTime())) {
+    throw new Error("Invalid Date");
+  }
   return new Date(
-    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
   );
 };
 const schema = z.object({
