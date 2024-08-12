@@ -2,6 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 import { db } from "~/lib/db";
 
 interface IData {
@@ -17,8 +18,8 @@ const BannerServerAction = async (data: IData) => {
     if (!session) {
       return;
     }
-    if(!session.user){
-      return
+    if (!session.user) {
+      return;
     }
     if (session.user.email === null) {
       return;
@@ -41,12 +42,34 @@ const BannerServerAction = async (data: IData) => {
     // Log the date before conversion
     console.log("Date before conversion:", data.date);
 
+    const { description, active, date, link } = data;
+
+    const formData = z.object({
+      description: z.string(),
+      active: z.boolean(),
+      date: z.date(),
+      link: z.string(),
+    });
+
+    const isValidData = formData.parse({
+      description,
+      active,
+      date,
+      link,
+    });
+
+    if (!isValidData) {
+      return {
+        error: "Invalid Data",
+      };
+    }
+
     // Convert date to UTC
     const dateInUTC = new Date(
       Date.UTC(
-        data.date.getFullYear(),
-        data.date.getMonth(),
-        data.date.getDate(),
+        isValidData.date.getFullYear(),
+        isValidData.date.getMonth(),
+        isValidData.date.getDate(),
       ),
     );
 
@@ -67,10 +90,10 @@ const BannerServerAction = async (data: IData) => {
           id: existingBanner.id,
         },
         data: {
-          description: data.description,
+          description: isValidData.description,
           date: dateInUTC,
-          link: data.link,
-          active: data.active,
+          link: isValidData.link,
+          active: isValidData.active,
         },
       });
       // Revalidate the path after creating or updating the banner
@@ -79,13 +102,34 @@ const BannerServerAction = async (data: IData) => {
         message: "Banner Updated",
       };
     } else {
+      const { description, active, date, link } = data;
+
+      const formData = z.object({
+        description: z.string(),
+        active: z.boolean(),
+        date: z.date(),
+        link: z.string(),
+      });
+
+      const isValidData = formData.parse({
+        description,
+        active,
+        date,
+        link,
+      });
+
+      if (!isValidData) {
+        return {
+          error: "Invalid Data",
+        };
+      }
       // Create new banner
       await db.banner.create({
         data: {
-          description: data.description,
+          description: isValidData.description,
           date: dateInUTC,
-          link: data.link,
-          active: data.active,
+          link: isValidData.link,
+          active: isValidData.active,
           user: {
             connect: { id: user.id },
           },

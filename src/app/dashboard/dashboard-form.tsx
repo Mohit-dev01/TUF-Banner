@@ -60,11 +60,11 @@ const DashboardForm = ({
       active: active || true,
     },
   });
-
+  console.log("defaultDate", date);
   const { toast } = useToast();
   const router = useRouter();
   const onSubmit = (data: z.infer<typeof schema>) => {
-    console.log(data);
+    console.log("data", data);
     BannerServerAction(data)
       .then((resp) => {
         toast({
@@ -212,7 +212,9 @@ const DashboardForm = ({
                 />
               </div>
               <Button className="mt-5">Submit</Button>
-              <Button onClick={() => signOut()}>Sign Out</Button>
+              <Button className="bg-red-500" onClick={() => signOut()}>
+                Sign Out
+              </Button>
             </div>
           </form>
         </div>
