@@ -32,7 +32,7 @@ const convertToUTC = (date: Date) => {
     throw new Error("Invalid Date");
   }
   return new Date(
-    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
   );
 };
 const schema = z.object({
@@ -62,18 +62,18 @@ const DashboardForm = ({
     reset,
   } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      description: description,
-      date: convertToUTC(date),
-      link: link,
-      active: active || true,
-    },
+    // defaultValues: {
+    //   description: description,
+    //   date: convertToUTC(date) || new Date(),
+    //   link: link,
+    //   active: active || true,
+    // },
   });
   // console.log("defaultDate", date);
   const { toast } = useToast();
   const router = useRouter();
   const onSubmit = (data: z.infer<typeof schema>) => {
-    console.log("data", data);
+    console.log("data", typeof data.date);
     const dataWithUTCDate = {
       ...data,
       date: convertToUTC(data.date),
