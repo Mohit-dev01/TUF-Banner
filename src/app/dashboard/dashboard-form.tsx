@@ -19,6 +19,7 @@ import BannerServerAction from "./dashboard-action";
 import { useToast } from "~/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { before } from "node:test";
+import { signOut } from "next-auth/react";
 interface IData {
   description: string;
   date: Date;
@@ -88,7 +89,7 @@ const DashboardForm = ({
   // set time to start of the day so that time will not create issue because we only want to compare the days
   today.setHours(0, 0, 0, 0);
   // setting matcher , before comes from react daypicker library which gives all the day before the particular date
-  const disabledDays = [{before: today}, today];
+  const disabledDays = [{ before: today }, today];
   return (
     <>
       <div className="px-5">
@@ -211,6 +212,7 @@ const DashboardForm = ({
                 />
               </div>
               <Button className="mt-5">Submit</Button>
+              <Button onClick={() => signOut()}>Sign Out</Button>
             </div>
           </form>
         </div>

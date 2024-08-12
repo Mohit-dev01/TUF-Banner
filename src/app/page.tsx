@@ -6,6 +6,7 @@ import { db } from "~/lib/db";
 
 const Home = async () => {
   const session = await getServerSession();
+  console.log(session);
   if (!session) {
     return (
       <div className="flex flex-col gap-2">
@@ -33,7 +34,7 @@ const Home = async () => {
   if (!user) {
     return (
       <>
-        {/* <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2">
           <Link
             className="mt-10 flex flex-wrap items-center justify-center text-blue-500"
             href="/register"
@@ -41,7 +42,7 @@ const Home = async () => {
             {" "}
             Create an account to add the banner
           </Link>
-        </div> */}
+        </div>
       </>
     );
   }

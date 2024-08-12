@@ -5,7 +5,8 @@ import { authOptions } from "~/lib/auth";
 import { getServerSession } from "next-auth";
 
 const Dashboard = async () => {
-  const session = await getServerSession(authOptions);
+  // const session = await getServerSession(authOptions);
+  const session = await getServerSession();
   console.log(session);
   if (!session) {
     return (
@@ -15,7 +16,7 @@ const Dashboard = async () => {
           href="/login"
         >
           {" "}
-          Login Here to add the banner
+          Login Here to add the banner 
         </Link>
       </div>
     );
@@ -34,7 +35,7 @@ const Dashboard = async () => {
   if (!user) {
     return (
       <>
-        {/* <div>
+        <div>
           <Link
             className="mt-10 flex flex-wrap items-center justify-center text-blue-500"
             href="/login"
@@ -42,7 +43,7 @@ const Dashboard = async () => {
             {" "}
             Login Here to add the banner
           </Link>
-        </div> */}
+        </div>
       </>
     );
   }
@@ -55,7 +56,7 @@ const Dashboard = async () => {
   // if (!data) {
   //   return;
   // }
-
+  console.log(data);
   return (
     <>
       <DashboardForm
