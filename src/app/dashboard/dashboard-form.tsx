@@ -26,6 +26,12 @@ interface IData {
   link: string;
   active: boolean;
 }
+
+const convertToUTC = (date: Date) => {
+  return new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+  );
+};
 const schema = z.object({
   description: z.string({ required_error: "Please enter the description" }),
   date: z.date({ required_error: "Please select the date" }),
@@ -35,19 +41,17 @@ const schema = z.object({
   active: z.boolean().default(true),
 });
 
-const DashboardForm = (
-  {
-    // description,
-    // date,
-    // link,
-    // active,
-  }: {
-    description: string;
-    date: Date;
-    link: string;
-    active: boolean;
-  },
-) => {
+const DashboardForm = ({
+  description,
+  date,
+  link,
+  active,
+}: {
+  description: string;
+  date: Date;
+  link: string;
+  active: boolean;
+}) => {
   const {
     handleSubmit,
     control,
@@ -55,19 +59,23 @@ const DashboardForm = (
     reset,
   } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
-    // defaultValues: {
-    //   description: description,
-    //   date: date,
-    //   link: link,
-    //   active: active || true,
-    // },
+    defaultValues: {
+      description: description,
+      date: convertToUTC(date),
+      link: link,
+      active: active || true,
+    },
   });
   // console.log("defaultDate", date);
   const { toast } = useToast();
   const router = useRouter();
   const onSubmit = (data: z.infer<typeof schema>) => {
     console.log("data", data);
-    BannerServerAction(data)
+    const dataWithUTCDate = {
+      ...data,
+      date: convertToUTC(data.date),
+    };
+    BannerServerAction(dataWithUTCDate)
       .then((resp) => {
         toast({
           variant: "default",
