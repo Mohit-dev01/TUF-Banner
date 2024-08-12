@@ -1,21 +1,37 @@
 "use server";
 
 import { getServerSession } from "next-auth";
-import { db } from "~/server/db";
+import { db } from "~/lib/db";
 import { hash } from "bcrypt";
 import { useToast } from "~/components/ui/use-toast";
+import { z } from "zod";
 
 interface IData {
   email: string;
   password: string;
 }
 const RegisterAction = async (data: IData) => {
-  const session = await getServerSession();
-
+  // const session = await getServerSession();
+  // if (!session) {
+  //   return {
+  //     error: "Unauthorise",
+  //   };
+  // }
+  const { email, password } = data;
+  const formData = z.object({
+    email: z.string().email(),
+    password: z.string().min(6),
+  });
+  const isValidData = formData.parse({ email, password });
+  if (!isValidData) {
+    return {
+      error: "Invalid Data",
+    };
+  }
   try {
     const existingUser = await db.user.findUnique({
       where: {
-        email: data.email,
+        email: isValidData.email,
       },
     });
 
@@ -25,11 +41,11 @@ const RegisterAction = async (data: IData) => {
       };
     }
 
-    const hashedPassword = await hash(data.password, 10);
+    const hashedPassword = await hash(isValidData.password, 10);
 
     await db.user.create({
       data: {
-        email: data.email,
+        email: isValidData.email,
         password: hashedPassword,
       },
     });

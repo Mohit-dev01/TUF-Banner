@@ -2,7 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
-import { db } from "~/server/db";
+import { db } from "~/lib/db";
 
 interface IData {
   description: string;
@@ -16,6 +16,9 @@ const BannerServerAction = async (data: IData) => {
     const session = await getServerSession();
     if (!session) {
       return;
+    }
+    if(!session.user){
+      return
     }
     if (session.user.email === null) {
       return;

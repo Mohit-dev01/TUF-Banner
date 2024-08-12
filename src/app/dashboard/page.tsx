@@ -1,11 +1,26 @@
-import { getServerSession } from "next-auth";
 import DashboardForm from "./dashboard-form";
-import { db } from "~/server/db";
+import { db } from "~/lib/db";
 import Link from "next/link";
+import { authOptions } from "~/lib/auth";
+import { getServerSession } from "next-auth";
 
 const Dashboard = async () => {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
+  console.log(session);
   if (!session) {
+    return (
+      <div>
+        <Link
+          className="mt-10 flex flex-wrap items-center justify-center text-blue-500"
+          href="/login"
+        >
+          {" "}
+          Login Here to add the banner
+        </Link>
+      </div>
+    );
+  }
+  if (!session.user) {
     return;
   }
   if (session.user.email === null) {
@@ -19,7 +34,7 @@ const Dashboard = async () => {
   if (!user) {
     return (
       <>
-        <div>
+        {/* <div>
           <Link
             className="mt-10 flex flex-wrap items-center justify-center text-blue-500"
             href="/login"
@@ -27,7 +42,7 @@ const Dashboard = async () => {
             {" "}
             Login Here to add the banner
           </Link>
-        </div>
+        </div> */}
       </>
     );
   }
@@ -37,17 +52,17 @@ const Dashboard = async () => {
     },
   });
 
-  if (!data) {
-    return;
-  }
+  // if (!data) {
+  //   return;
+  // }
 
   return (
     <>
       <DashboardForm
-        description={data.description}
-        link={data.link}
-        date={data.date}
-        active={data.active}
+        description={data?.description!}
+        link={data?.link!}
+        date={data?.date!}
+        active={data?.active!}
       />
     </>
   );

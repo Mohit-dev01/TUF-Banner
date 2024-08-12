@@ -4,10 +4,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Controller } from "react-hook-form";
 import { Button } from "~/components/ui/button";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+
 import { useRouter } from "next/navigation";
 import { useToast } from "~/components/ui/use-toast";
 import Link from "next/link";
+// import { authOptions } from "~/server/auth";
 const schema = z.object({
   email: z
     .string({ required_error: "Please enter the email" })
@@ -24,6 +26,9 @@ const LoginForm = () => {
     resolver: zodResolver(schema),
   });
 
+  const session = useSession()
+  console.log(session)
+  
   const router = useRouter();
   const { toast } = useToast();
   const onSubmit = async (data: z.infer<typeof schema>) => {

@@ -2,11 +2,24 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 import React from "react";
 import CountdownTimer from "~/components/countDownTimer";
-import { db } from "~/server/db";
+import { db } from "~/lib/db";
 
 const Home = async () => {
   const session = await getServerSession();
   if (!session) {
+    return (
+      <div className="flex flex-col gap-2">
+        <Link
+          className="mt-10 flex flex-wrap items-center justify-center text-blue-500"
+          href="/register"
+        >
+          {" "}
+          Create an account to add the banner
+        </Link>
+      </div>
+    );
+  }
+  if (!session.user) {
     return;
   }
   if (session.user.email === null) {
@@ -20,7 +33,7 @@ const Home = async () => {
   if (!user) {
     return (
       <>
-        <div className="flex flex-col gap-2">
+        {/* <div className="flex flex-col gap-2">
           <Link
             className="mt-10 flex flex-wrap items-center justify-center text-blue-500"
             href="/register"
@@ -28,7 +41,7 @@ const Home = async () => {
             {" "}
             Create an account to add the banner
           </Link>
-        </div>
+        </div> */}
       </>
     );
   }

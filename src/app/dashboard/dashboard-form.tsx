@@ -18,6 +18,7 @@ import DashboardServerAction from "./dashboard-action";
 import BannerServerAction from "./dashboard-action";
 import { useToast } from "~/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { before } from "node:test";
 interface IData {
   description: string;
   date: Date;
@@ -82,6 +83,12 @@ const DashboardForm = ({
   const error = (e: any) => {
     console.log(e);
   };
+
+  const today = new Date();
+  // set time to start of the day so that time will not create issue because we only want to compare the days
+  today.setHours(0, 0, 0, 0);
+  // setting matcher , before comes from react daypicker library which gives all the day before the particular date
+  const disabledDays = [{before: today}, today];
   return (
     <>
       <div className="px-5">
@@ -145,6 +152,7 @@ const DashboardForm = ({
                           )}
                           <PopoverContent>
                             <Calendar
+                              disabled={disabledDays}
                               mode="single"
                               selected={field.value}
                               onSelect={field.onChange}
