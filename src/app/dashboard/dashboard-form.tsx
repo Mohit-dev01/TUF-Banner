@@ -35,17 +35,19 @@ const schema = z.object({
   active: z.boolean().default(true),
 });
 
-const DashboardForm = ({
-  description,
-  date,
-  link,
-  active,
-}: {
-  description: string;
-  date: Date;
-  link: string;
-  active: boolean;
-}) => {
+const DashboardForm = (
+  {
+    // description,
+    // date,
+    // link,
+    // active,
+  }: {
+    description: string;
+    date: Date;
+    link: string;
+    active: boolean;
+  },
+) => {
   const {
     handleSubmit,
     control,
@@ -53,14 +55,14 @@ const DashboardForm = ({
     reset,
   } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      description: description,
-      date: date,
-      link: link,
-      active: active || true,
-    },
+    // defaultValues: {
+    //   description: description,
+    //   date: date,
+    //   link: link,
+    //   active: active || true,
+    // },
   });
-  console.log("defaultDate", date);
+  // console.log("defaultDate", date);
   const { toast } = useToast();
   const router = useRouter();
   const onSubmit = (data: z.infer<typeof schema>) => {
