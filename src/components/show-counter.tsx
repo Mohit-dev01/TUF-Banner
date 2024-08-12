@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import DateTimeDisplay from "./dateTimeDisplay";
+import DateTimeDisplay from "./date-time-display";
 import Link from "next/link";
 
 interface IShowCounterProps {
@@ -19,13 +19,12 @@ const ShowCounter = ({
   link,
 }: IShowCounterProps) => {
   return (
-    <div className="flex items-center justify-center ">
+    <div className="flex items-center justify-center">
       <div className="w-full">
         <Link
           href={`${link}`}
           target="_blank"
-          // rel="noopener noreferrer"
-          className="flex items-center bg-black justify-center rounded-lg  p-[30px] text-[20px] font-bold leading-[28px] text-[#ffffff]"
+          className="flex items-center justify-center rounded-lg bg-black p-[30px] text-[20px] font-bold leading-[28px] text-[#ffffff]"
         >
           <DateTimeDisplay value={days} type={"Days"} isDanger={days <= 3} />
           <p>:</p>

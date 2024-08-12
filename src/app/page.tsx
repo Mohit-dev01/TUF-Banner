@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import React from "react";
-import CountdownTimer from "~/components/countDownTimer";
+import CountdownTimer from "~/components/count-down-timer";
 import { db } from "~/lib/db";
 
 const Home = async () => {

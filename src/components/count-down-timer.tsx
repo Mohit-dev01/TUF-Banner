@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import DateTimeDisplay from "./dateTimeDisplay";
+import DateTimeDisplay from "./date-time-display";
 import { useCountdown } from "~/hooks/useCountdown";
-import ExpiredNotice from "./expiredNotice";
-import ShowCounter from "./showCounter";
+import ExpiredNotice from "./expired-notice";
+import ShowCounter from "./show-counter";
 import { Button } from "./ui/button";
 import Link from "next/link";
 
@@ -74,28 +74,30 @@ const CountdownTimer = ({
   } else {
     return (
       <>
-        <div className="px-5">
-          <div className="mx-auto max-w-[306px]">
-            <div className="flex flex-col items-center justify-center gap-10">
-              <Button className="text-bold mt-[50px] w-full rounded-lg bg-slate-100 py-2 text-center text-[20px] hover:text-white">
-                Banner
-              </Button>
-              <ShowCounter
-                link={link}
-                days={days}
-                hours={hours}
-                minutes={minutes}
-                seconds={seconds}
-              />
+        <Link href={link} className="">
+          <div className="px-5">
+            <div className="mx-auto max-w-[306px]">
+              <div className="flex flex-col items-center justify-center gap-10">
+                <Button className="text-bold mt-[50px] w-full rounded-lg bg-slate-100 py-2 text-center text-[20px] hover:text-white">
+                  Banner
+                </Button>
+                <ShowCounter
+                  link={link}
+                  days={days}
+                  hours={hours}
+                  minutes={minutes}
+                  seconds={seconds}
+                />
 
-              <div className="w-full">
-                <div className="text-bold w-full overflow-auto rounded-lg bg-slate-100 py-2 text-center text-[20px] text-black">
-                  {description}
+                <div className="w-full">
+                  <div className="text-bold w-full overflow-auto rounded-lg bg-slate-100 py-2 text-center text-[20px] text-black">
+                    {description}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       </>
     );
   }

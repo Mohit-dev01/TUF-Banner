@@ -1,8 +1,8 @@
 'use client'
 import React from "react";
 import { useCountdown } from "~/hooks/useCountdown";
-import ExpiredNotice from "./expiredNotice";
-import ShowCounter from "./showCounter";
+import ExpiredNotice from "./expired-notice";
+import ShowCounter from "./show-counter";
 
 interface ICountdownTimerProps {
   targetDate: Date;

@@ -106,9 +106,9 @@ const DashboardForm = ({
   };
 
   const today = new Date();
-  // set time to start of the day so that time will not create issue because we only want to compare the days
+
   today.setHours(0, 0, 0, 0);
-  // setting matcher , before comes from react daypicker library which gives all the day before the particular date
+
   const disabledDays = [{ before: today }, today];
   return (
     <>

@@ -11,12 +11,7 @@ interface IData {
   password: string;
 }
 const RegisterAction = async (data: IData) => {
-  // const session = await getServerSession();
-  // if (!session) {
-  //   return {
-  //     error: "Unauthorise",
-  //   };
-  // }
+
   const { email, password } = data;
   const formData = z.object({
     email: z.string().email(),
